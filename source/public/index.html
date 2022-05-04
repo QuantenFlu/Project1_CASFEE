@@ -1,15 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title>Note App</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
-  <script src="scripts/index.js" type="module"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Note App</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
+      integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU="
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="scripts/index.js" type="module"></script>
 
-  <link rel="stylesheet" href="styles/index.css">
-</head>
-<body>
-<h1>Note App</h1>
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="title-header">Aufgaben</h1>
+    </header>
 
-</body>
+    <main>
+      <section class="top-section">
+        <a class="create-button button" href="todo.html">New todo</a>
+        <input
+          type="button"
+          class="create-button filter-button"
+          value="New todo"
+        />
+        <input
+          type="button"
+          class="style-button filter-button"
+          value="Toggle"
+        />
+      </section>
+
+      <section class="filter-section">
+        <h2 class="filter-title">Filter</h2>
+        <ul class="nav-filter-list">
+          <li class="nav-filter-item">
+            <input
+              class="name-filter-button filter-button"
+              type="button"
+              value="By Name"
+            />
+          </li>
+          <li class="nav-filter-item">
+            <input
+              class="dueDate-filter-button filter-button"
+              type="button"
+              value="By Due Date"
+            />
+          </li>
+          <li class="nav-filter-item">
+            <input
+              class="creationDate-filter-button filter-button"
+              type="button"
+              value="By Creation Date"
+            />
+          </li>
+          <li class="nav-filter-item">
+            <input
+              class="importance-filter-button filter-button"
+              type="button"
+              value="By Importance"
+            />
+          </li>
+          <li class="nav-filter-item">
+            <input
+              class="completed-filter-button filter-button"
+              type="button"
+              value="Filter Completed"
+            />
+          </li>
+        </ul>
+      </section>
+
+      <section class="todo-section">
+        <p>Main Area</p>
+      </section>
+    </main>
+
+    <footer>
+      <p class="text-footer">&copy; By Kevin Baschung</p>
+    </footer>
+  </body>
 </html>

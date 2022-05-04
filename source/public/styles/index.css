@@ -1,3 +1,49 @@
 * {
     box-sizing: border-box;
 }
+
+body {
+    max-width: 750px;
+}
+
+.top-section {
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-section {
+    background-color: aqua;
+}
+
+.todo-section {
+    min-height: 250px;
+    border: 2px solid blue;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: coral;
+}
+
+.filter-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.nav-filter-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-filter-item {
+    display: inline;
+}
+
+.nav-filter-item:not(:first-child) {
+    margin-left: 15px;
+}
+
+.filter-button {
+    padding: 5px;
+}

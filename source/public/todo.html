@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link rel="stylesheet" href="styles/todo.css">
+  </head>
+  <body>
+    <header>
+      <h1 class="title-header">Your todo</h1>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <label class="todo-title-title" for="title-id">Title</label>
+          <input class="todo-title-input input" id="title-id" type="text" placeholder="Your title" />
+        <label class="todo-dueDate-title" for="dueDate-id">Todo until</label>
+          <input class="todo-dueDate-input input" id="dueDate-id" type="date" />
+        <label class="todo-description-title" for="description-id">Description</label>
+          <textarea class="todo-description-input input" id="description-id" rows="5"></textarea>
+        <label class="todo-priority-tile" for="priority-id">Priority</label>
+          <select class="todo-priority-select input" name="priority" id="priority-id">
+            <option class="todo-priority-option" value="" selected disabled hidden>Choose Priority</option>
+            <option class="todo-priority-option" value="4">Important</option>
+            <option class="todo-priority-option" value="3">High</option>
+            <option class="todo-priority-option" value="2" >Medium</option>
+            <option class="todo-priority-option" value="1">Low</option>
+          </select>
+      </section>
+
+      <section>
+        <a href="index.html">Back</a>
+        <input type="button" value="Back" />
+        <input type="button" value="Save & Back" />
+        <input type="button" value="Save" />
+      </section>
+    </main>
+
+    <footer>
+      <p class="text-footer">&copy; By Kevin Baschung</p>
+    </footer>
+  </body>
+</html>
