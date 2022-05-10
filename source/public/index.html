@@ -20,15 +20,15 @@
 
     <main>
       <section class="top-section">
-        <a class="create-button button" href="todo.html">New todo</a>
         <input
           type="button"
-          class="create-button filter-button"
-          value="New todo"
+          class="button-style button-text"
+          value="Neues Todo"
+          onclick="location.href='defineTodo.html'"
         />
         <input
           type="button"
-          class="style-button filter-button"
+          class="button-style button-text"
           value="Toggle"
         />
       </section>
@@ -38,44 +38,44 @@
         <ul class="nav-filter-list">
           <li class="nav-filter-item">
             <input
-              class="name-filter-button filter-button"
+              class="button-style button-text button-anim"
               type="button"
-              value="By Name"
+              value="Nach Name"
             />
           </li>
           <li class="nav-filter-item">
             <input
-              class="dueDate-filter-button filter-button"
+              class="button-style button-text button-anim"
               type="button"
-              value="By Due Date"
+              value="Erledigt bis"
             />
           </li>
           <li class="nav-filter-item">
             <input
-              class="creationDate-filter-button filter-button"
+              class="button-style button-text button-anim"
               type="button"
-              value="By Creation Date"
+              value="Erstellt am"
             />
           </li>
           <li class="nav-filter-item">
             <input
-              class="importance-filter-button filter-button"
+              class="button-style button-text button-anim"
               type="button"
-              value="By Importance"
+              value="Wichtig"
             />
           </li>
           <li class="nav-filter-item">
             <input
-              class="completed-filter-button filter-button"
+              class="button-style button-text button-anim"
               type="button"
-              value="Filter Completed"
+              value="Filter zurücksetzen"
             />
           </li>
         </ul>
       </section>
 
       <section class="todo-section">
-        <p>Main Area</p>
+        <p>List of todos</p>
       </section>
     </main>
 

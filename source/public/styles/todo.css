@@ -1,8 +1,44 @@
-.input {
-    width: 450px;
+body {
+    max-width: 30rem;
+    margin: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .input-section {
     display: flex;
     flex-direction: column;
+}
+
+.button-section {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+}
+
+.label-style {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.button-style {
+    background-color: white;
+    border: black 2px solid;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s, transform 0.2s, background-color 0.2s;
+}
+
+.button-style:hover {
+    background-color: black;
+    color: white;
+}
+
+.button-text {
+    font-size: 0.9rem;
+    color: black;
+}
+
+.button-anim:active {
+    transform: translateY(3px);
 }
