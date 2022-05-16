@@ -15,7 +15,7 @@
   </head>
   <body>
     <header>
-      <h1 class="title-header">Aufgaben</h1>
+      <h1 class="title-header">Next Time ToDo</h1>
     </header>
 
     <main>
@@ -24,13 +24,74 @@
           type="button"
           class="button-style button-text"
           value="Neues Todo"
-          onclick="location.href='defineTodo.html'"
+          id="addTodo-button"
         />
         <input
           type="button"
+          id="theme-button"
           class="button-style button-text"
           value="Toggle"
         />
+      </section>
+
+      <section class="todo-input-section" id="todo-input-section">
+        <form class="todo-input-form">
+          <label class="label-style todo-title-label" for="title-id">Titel</label>
+          <input
+            class="todo-title-input input"
+            id="title-id"
+            type="text"
+            placeholder="Was willst du machen?"
+          />
+          <label class="label-style todo-duedate-label" for="duedate-id"
+          >Zu erledigen bis</label
+          >
+          <input class="todo-duedate-input input" id="duedate-id" type="date" />
+          <label class="label-style todo-description-label" for="description-id"
+          >Beschreibung</label
+          >
+          <textarea
+            class="todo-description-input input"
+            id="description-id"
+            rows="5"
+          ></textarea>
+          <label class="label-style todo-priority-label" for="priority-id"
+          >Priorität</label
+          >
+
+          <select
+            class="todo-priority-select input"
+            name="priority"
+            id="priority-id"
+          >
+            <option
+              class="todo-priority-option"
+              value=""
+              selected
+              disabled
+              hidden
+            >
+              Wähle die Priorität
+            </option>
+            <option class="todo-priority-option" value="4">Dringend</option>
+            <option class="todo-priority-option" value="3">Hoch</option>
+            <option class="todo-priority-option" value="2">Mittel</option>
+            <option class="todo-priority-option" value="1">Wenig</option>
+          </select>
+
+          <section class="todo-button-section">
+            <button
+              type="button"
+              class="button-style button-text"
+              id="close-addTodo-button"
+            >
+              Schliessen
+            </button>
+            <button type="submit" class="button-style button-text button-anim">
+              Speichern
+            </button>
+          </section>
+        </form>
       </section>
 
       <section class="filter-section">
@@ -75,7 +136,29 @@
       </section>
 
       <section class="todo-section">
-        <p>List of todos</p>
+        <article class="todo-item-container">
+          <div class="todo-priority-color"></div>
+          <p class="todo-item-title">Einkaufen 1 August</p>
+          <p class="todo-item-duedate">Bis: 15.7.2022</p>
+          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
+          <p class="todo-item-priority">Prio: Mittel</p>
+        </article>
+        <article class="todo-item-container">
+          <div class="todo-priority-color"></div>
+          <p class="todo-item-title">Einkaufen 1 August</p>
+          <p class="todo-item-duedate">Bis: 15.7.2022</p>
+          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
+          <p class="todo-item-priority">Prio: Mittel</p>
+        </article>
+        <article class="todo-item-container">
+          <div class="todo-priority-color"></div>
+          <p class="todo-item-title">Einkaufen 1 August</p>
+          <p class="todo-item-duedate">Bis: 15.7.2022</p>
+          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
+          <p class="todo-item-priority">Prio: Mittel</p>
+        </article>
+
+
       </section>
     </main>
 

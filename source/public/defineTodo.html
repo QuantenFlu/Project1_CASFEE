@@ -11,7 +11,7 @@
     </header>
 
     <main>
-      <section class="input-section">
+      <form class="input-section">
         <label class="label-style todo-title-title" for="title-id">Titel</label>
         <input
           class="todo-title-input input"
@@ -54,26 +54,23 @@
           <option class="todo-priority-option" value="2">Mittel</option>
           <option class="todo-priority-option" value="1">Wenig</option>
         </select>
-      </section>
 
-      <section class="button-section">
-        <input
-          type="button"
-          class="button-style button-text"
-          value="Zurück"
-          onclick="location.href='index.html'"
-        />
-        <input
-          type="button"
-          class="button-style button-text"
-          value="Speichern & Zurück"
-        />
-        <input
-          type="button"
-          class="button-style button-text button-anim"
-          value="Speichern"
-        />
-      </section>
+        <section class="button-section">
+          <button
+            type="button"
+            class="button-style button-text"
+            onclick="location.href='index.html'"
+          >
+            Zurück
+          </button>
+          <button type="reset" class="button-style button-text">
+            Speichern & Zurück
+          </button>
+          <button type="submit" class="button-style button-text button-anim">
+            Speichern
+          </button>
+        </section>
+      </form>
     </main>
 
     <footer>
