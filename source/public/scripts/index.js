@@ -3,9 +3,11 @@ const addTaskButton = document.querySelector("#addTodo-button");
 const closeAddTaskButton = document.querySelector("#close-add-task-button");
 const taskList = document.querySelector("#task-list");
 const taskForm = document.querySelector("#task-form");
-const removeButton = document.querySelector("#remove-all-tasks-button");
 const sortByPrioButton = document.querySelector("#button-priority");
 const sortByDueDateButton = document.querySelector("#button-due-date");
+const sortByCreationButton = document.querySelector("#button-created-date");
+const sortByNameButton = document.querySelector("#button-by-name");
+const sortResetButton = document.querySelector("#button-reset")
 const taskListElement = document.querySelector("#task-list");
 const darkMode = localStorage.getItem("dark-theme");
 const taskStorage = localStorage.getItem("task-list")
@@ -56,18 +58,25 @@ function sortByCreatedDate(task1, task2) {
 function sortByPriority(task1, task2) {
   return task2.priority - task1.priority;
 }
-function completeTask(tasks, taskId) {
-  tasks.forEach(task => {
-    if (task.id.toString() === taskId) {
-      // Remove task from array
-    }
-  })
+
+function sortByName(task1, task2) {
+  if(task1.title.toLowerCase() < task2.title.toLowerCase()) { return -1; }
+  if(task1.title.toLowerCase() > task2.title.toLowerCase()) { return 1; }
+  return 0;
 }
 
-function createDaysUntil(date) {
-  if (date) {
+function getTaskState(isChecked) {
+  return isChecked ? "checked" : ""
+}
+
+function getStateText(isChecked) {
+  return isChecked ? "erledigt" : "offen";
+}
+
+function createDaysUntil(task) {
+  if (task.dueDate && !task.completed) {
     const dateToday = new Date();
-    const dueDate = new Date(date);
+    const dueDate = new Date(task.dueDate);
     const dateDifference = dueDate.getTime() - dateToday.getTime();
     const daysUntil = Math.ceil(dateDifference / (1000 * 60 * 60 * 24));
 
@@ -91,20 +100,23 @@ function createPrioritySign(priority) {
 function createTaskListHTML(tasks) {
   return tasks.map(
     (task) => `
- <li class="task-item-container" >
+ <div class="task-item-container" id="task-item-container">
     <div class="task-state"></div>
     <div class="task-title">
       <p class="todo-item-title">${task.title}</p>
     </div>
     <div class="task-complete">
-        <i class="fa-solid fa-circle-check fa-lg task-button ${
-          task.completed ? "task-completed" : "complete-task"
-        }" data-task-id="${task.id}" data-task-func="complete"></i>
+      <div>
+        <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${getTaskState(task.completed)} data-task-id="${task.id}" data-task-func="complete">
+        <label for="task-state-checkbox">${getStateText(task.completed)}</label>
+      </div>
+      <button class="task-container-button task-button" data-task-id="${task.id}" data-task-func="edit">
         <i class="fa-solid fa-pen fa-lg task-button" data-task-id="${task.id}" data-task-func="edit"></i>
-        <i class="fa-solid fa-trash fa-lg task-button remove-task" data-task-id="${task.id}" data-task-func="remove"></i>
+      </button>
+      
     </div>
     <div class="task-due-date">
-      ${createDaysUntil(task.dueDate)}
+      ${createDaysUntil(task)}
     </div>
     <div class="task-description">
       <p class="todo-item-description">${task.description}</p>
@@ -112,7 +124,7 @@ function createTaskListHTML(tasks) {
     <div class="task-priority">
       ${createPrioritySign(task.priority)}
     </div>
-  </li>  `
+  </div>  `
   ).join('');
 }
 
@@ -123,10 +135,6 @@ function renderList(tasks) {
     taskListElement.innerHTML = createTaskListHTML(tasks)
   }
 }
-
-removeButton.addEventListener("click", () => {
-  localStorage.clear();
-});
 
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -153,15 +161,21 @@ taskForm.addEventListener("submit", (e) => {
   document.querySelector("#form-wrapper").style.display = "none";
 });
 
+function completeTask({tasks, taskId, isChecked}) {
+  const index = tasks.findIndex((task =>task.id.toString() === taskId))
+  // eslint-disable-next-line no-param-reassign
+  tasks[index].completed = isChecked
+  localStorage.setItem("task-list", JSON.stringify(tasks));
+  renderList(tasks)
+}
+
 function taskClickEventHandler(event) {
   const {taskId} = event.target.dataset
   switch (event.target.dataset.taskFunc) {
     case "edit" :
       break;
     case "complete" :
-      completeTask(taskStorage, taskId)
-      break;
-    case "remove" :
+      completeTask({tasks: taskStorage, taskId, isChecked: event.target.checked});
       break;
 
     default:
@@ -189,5 +203,18 @@ sortByPrioButton.addEventListener("click", () => {
 sortByDueDateButton.addEventListener("click", () => {
   renderList([...taskStorage].sort(sortByDueDate));
 });
+
+sortByCreationButton.addEventListener("click", () => {
+  renderList([...taskStorage].sort(sortByCreatedDate));
+})
+
+sortByNameButton.addEventListener("click", () => {
+  renderList([...taskStorage].sort(sortByName));
+})
+
+sortResetButton.addEventListener("click", () => {
+  const tasks = JSON.parse(localStorage.getItem("task-list"))
+  renderList(tasks);
+})
 
 renderList(taskStorage);
