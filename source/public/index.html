@@ -3,15 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>Note App</title>
+
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
       integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU="
       crossorigin="anonymous"
       defer
     ></script>
-    <script src="scripts/index.js" type="module"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/index.css" />
+    <script src="https://kit.fontawesome.com/1ca1a76b88.js" crossorigin="anonymous"></script>
+    <script src="scripts/index.js" type="module"></script>
   </head>
   <body>
     <header>
@@ -19,151 +23,156 @@
     </header>
 
     <main>
-      <section class="top-section">
-        <input
-          type="button"
-          class="button-style button-text"
-          value="Neues Todo"
-          id="addTodo-button"
-        />
-        <input
-          type="button"
-          id="theme-button"
-          class="button-style button-text"
-          value="Toggle"
-        />
+      <section id="list-wrapper">
+        <section class="top-section">
+          <input
+            type="button"
+            class="button-style button-text"
+            value="Neues Todo"
+            id="addTodo-button"
+          />
+          <input
+            type="button"
+            id="theme-button"
+            class="button-style button-text"
+            value="Toggle"
+          />
+        </section>
+
+        <section class="filter-section">
+          <h2 class="filter-title">Filter</h2>
+          <ul class="nav-filter-list">
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim"
+                type="button"
+                id="button-by-name"
+                value="Nach Name"
+              />
+            </li>
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim"
+                type="button"
+                id="button-due-date"
+                value="Erledigt bis"
+              />
+            </li>
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim"
+                type="button"
+                id="button-created-date"
+                value="Erstellt am"
+              />
+            </li>
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim"
+                type="button"
+                id="button-priority"
+                value="Wichtig"
+              />
+            </li>
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim"
+                type="button"
+                value="Filter zurücksetzen"
+              />
+            </li>
+          </ul>
+        </section>
+
+        <ul id="task-list" class="task-list"></ul>
       </section>
 
-      <section class="todo-input-section" id="todo-input-section">
-        <form class="todo-input-form">
-          <label class="label-style todo-title-label" for="title-id">Titel</label>
-          <input
-            class="todo-title-input input"
-            id="title-id"
-            type="text"
-            placeholder="Was willst du machen?"
-          />
-          <label class="label-style todo-duedate-label" for="duedate-id"
-          >Zu erledigen bis</label
-          >
-          <input class="todo-duedate-input input" id="duedate-id" type="date" />
-          <label class="label-style todo-description-label" for="description-id"
-          >Beschreibung</label
-          >
-          <textarea
-            class="todo-description-input input"
-            id="description-id"
-            rows="5"
-          ></textarea>
-          <label class="label-style todo-priority-label" for="priority-id"
-          >Priorität</label
-          >
-
-          <select
-            class="todo-priority-select input"
-            name="priority"
-            id="priority-id"
-          >
-            <option
-              class="todo-priority-option"
-              value=""
-              selected
-              disabled
-              hidden
+      <section id="form-wrapper">
+        <form class="task-apply-form" id="task-form" action="" method="post">
+          <div class="task-div title-div">
+            <label class="label-style todo-title-label" for="title-id"
+              >Titel</label
             >
-              Wähle die Priorität
-            </option>
-            <option class="todo-priority-option" value="4">Dringend</option>
-            <option class="todo-priority-option" value="3">Hoch</option>
-            <option class="todo-priority-option" value="2">Mittel</option>
-            <option class="todo-priority-option" value="1">Wenig</option>
-          </select>
+            <input
+              class="todo-title-input input"
+              id="title-id"
+              type="text"
+              placeholder="Was willst du machen?"
+              required
+            />
+          </div>
+          <div class="task-div due-date-div">
+            <label class="label-style todo-duedate-label" for="due-date-id"
+              >Zu erledigen bis</label
+            >
+            <input
+              class="todo-duedate-input input"
+              id="due-date-id"
+              type="date"
+              required
+            />
+          </div>
+          <div class="task-div description-div">
+            <label
+              class="label-style todo-description-label"
+              for="description-id"
+              >Beschreibung</label
+            >
+            <textarea
+              class="todo-description-input input"
+              id="description-id"
+              rows="5"
+            ></textarea>
+          </div>
 
-          <section class="todo-button-section">
+          <div class="task-div priority-div">
+            <label class="label-style todo-priority-label" for="priority-id"
+              >Priorität</label
+            >
+            <select
+              class="todo-priority-select input"
+              name="priority"
+              id="priority-id"
+              required
+            >
+              <option class="todo-priority-option" value="4">Dringend</option>
+              <option class="todo-priority-option" value="3">Hoch</option>
+              <option class="todo-priority-option" value="2" selected>
+                Mittel
+              </option>
+              <option class="todo-priority-option" value="1">Wenig</option>
+            </select>
+          </div>
+
+          <div class="task-button-section">
             <button
               type="button"
               class="button-style button-text"
-              id="close-addTodo-button"
+              id="close-add-task-button"
             >
               Schliessen
             </button>
-            <button type="submit" class="button-style button-text button-anim">
+            <button
+              type="submit"
+              id="submit-add-task-button"
+              class="button-style button-text button-anim"
+            >
               Speichern
             </button>
-          </section>
+            <button
+              type="button"
+              id="remove-all-tasks-button"
+              class="button-style button-text button-anim"
+            >
+              Lösche Speicher
+            </button>
+          </div>
         </form>
-      </section>
-
-      <section class="filter-section">
-        <h2 class="filter-title">Filter</h2>
-        <ul class="nav-filter-list">
-          <li class="nav-filter-item">
-            <input
-              class="button-style button-text button-anim"
-              type="button"
-              value="Nach Name"
-            />
-          </li>
-          <li class="nav-filter-item">
-            <input
-              class="button-style button-text button-anim"
-              type="button"
-              value="Erledigt bis"
-            />
-          </li>
-          <li class="nav-filter-item">
-            <input
-              class="button-style button-text button-anim"
-              type="button"
-              value="Erstellt am"
-            />
-          </li>
-          <li class="nav-filter-item">
-            <input
-              class="button-style button-text button-anim"
-              type="button"
-              value="Wichtig"
-            />
-          </li>
-          <li class="nav-filter-item">
-            <input
-              class="button-style button-text button-anim"
-              type="button"
-              value="Filter zurücksetzen"
-            />
-          </li>
-        </ul>
-      </section>
-
-      <section class="todo-section">
-        <article class="todo-item-container">
-          <div class="todo-priority-color"></div>
-          <p class="todo-item-title">Einkaufen 1 August</p>
-          <p class="todo-item-duedate">Bis: 15.7.2022</p>
-          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
-          <p class="todo-item-priority">Prio: Mittel</p>
-        </article>
-        <article class="todo-item-container">
-          <div class="todo-priority-color"></div>
-          <p class="todo-item-title">Einkaufen 1 August</p>
-          <p class="todo-item-duedate">Bis: 15.7.2022</p>
-          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
-          <p class="todo-item-priority">Prio: Mittel</p>
-        </article>
-        <article class="todo-item-container">
-          <div class="todo-priority-color"></div>
-          <p class="todo-item-title">Einkaufen 1 August</p>
-          <p class="todo-item-duedate">Bis: 15.7.2022</p>
-          <p class="todo-item-description">Beschreibung: Kleiner Einkaufsbummel</p>
-          <p class="todo-item-priority">Prio: Mittel</p>
-        </article>
-
-
       </section>
     </main>
 
     <footer>
-      <p class="text-footer">&copy; By Kevin Baschung</p>
+      <p class="text-footer">&copy; By Baschung Technologies</p>
     </footer>
   </body>
 </html>

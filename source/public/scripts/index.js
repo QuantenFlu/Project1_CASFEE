@@ -1,16 +1,193 @@
+const themeButton = document.querySelector("#theme-button");
+const addTaskButton = document.querySelector("#addTodo-button");
+const closeAddTaskButton = document.querySelector("#close-add-task-button");
+const taskList = document.querySelector("#task-list");
+const taskForm = document.querySelector("#task-form");
+const removeButton = document.querySelector("#remove-all-tasks-button");
+const sortByPrioButton = document.querySelector("#button-priority");
+const sortByDueDateButton = document.querySelector("#button-due-date");
+const taskListElement = document.querySelector("#task-list");
+const darkMode = localStorage.getItem("dark-theme");
+const taskStorage = localStorage.getItem("task-list")
+  ? JSON.parse(localStorage.getItem("task-list"))
+  : [];
 
-const themeButton = document.getElementById("theme-button")
-const addTodoButton = document.getElementById("addTodo-button")
-const closeAddTodoButton = document.getElementById('close-addTodo-button')
+const enableDarkMode = () => {
+  document.body.classList.add("dark-theme");
+  localStorage.setItem("dark-theme", "enabled");
+};
+
+const disableDarkMode = () => {
+  document.body.classList.remove("dark-theme");
+  localStorage.setItem("dark-theme", "disabled");
+};
+
+if (darkMode === "enabled") {
+  enableDarkMode();
+}
 
 themeButton.addEventListener("click", () => {
-  document.body.classList.toggle("dark-theme")
-})
+  const mode = localStorage.getItem("dark-theme");
+  if (mode === "disabled") {
+    enableDarkMode();
+  } else {
+    disableDarkMode();
+  }
+});
 
-addTodoButton.addEventListener("click", () => {
-  document.getElementById("todo-input-section").style.height = "12rem"
-})
+function Task(title, description, priority, creationDate, dueDate, completed) {
+  this.id = creationDate;
+  this.title = title;
+  this.description = description;
+  this.priority = priority;
+  this.creationDate = creationDate;
+  this.dueDate = dueDate;
+  this.completed = completed;
+}
 
-closeAddTodoButton.addEventListener("click", () => {
-  document.getElementById("todo-input-section").style.height= "0"
-})
+function sortByDueDate(task1, task2) {
+  return task1.dueDate - task2.dueDate;
+}
+
+function sortByCreatedDate(task1, task2) {
+  return task1.creationDate - task2.creationDate;
+}
+
+function sortByPriority(task1, task2) {
+  return task2.priority - task1.priority;
+}
+function completeTask(tasks, taskId) {
+  tasks.forEach(task => {
+    if (task.id.toString() === taskId) {
+      // Remove task from array
+    }
+  })
+}
+
+function createDaysUntil(date) {
+  if (date) {
+    const dateToday = new Date();
+    const dueDate = new Date(date);
+    const dateDifference = dueDate.getTime() - dateToday.getTime();
+    const daysUntil = Math.ceil(dateDifference / (1000 * 60 * 60 * 24));
+
+    return `<span class="task-item-due-date">Noch ${daysUntil} Tage</span>`;
+  }
+
+  return ``;
+}
+
+function createPrioritySign(priority) {
+  let symbol = ``;
+  for (let i = 0; i < priority; i++) {
+    symbol += `<i class="fa-solid fa-bolt active-priority fa-lg"></i>`;
+  }
+  for (let i = priority; i < 4; i++) {
+    symbol += `<i class="fa-solid fa-bolt inactive-priority fa-lg"></i>`;
+  }
+  return symbol;
+}
+
+function createTaskListHTML(tasks) {
+  return tasks.map(
+    (task) => `
+ <li class="task-item-container" >
+    <div class="task-state"></div>
+    <div class="task-title">
+      <p class="todo-item-title">${task.title}</p>
+    </div>
+    <div class="task-complete">
+        <i class="fa-solid fa-circle-check fa-lg task-button ${
+          task.completed ? "task-completed" : "complete-task"
+        }" data-task-id="${task.id}" data-task-func="complete"></i>
+        <i class="fa-solid fa-pen fa-lg task-button" data-task-id="${task.id}" data-task-func="edit"></i>
+        <i class="fa-solid fa-trash fa-lg task-button remove-task" data-task-id="${task.id}" data-task-func="remove"></i>
+    </div>
+    <div class="task-due-date">
+      ${createDaysUntil(task.dueDate)}
+    </div>
+    <div class="task-description">
+      <p class="todo-item-description">${task.description}</p>
+    </div>
+    <div class="task-priority">
+      ${createPrioritySign(task.priority)}
+    </div>
+  </li>  `
+  ).join('');
+}
+
+function renderList(tasks) {
+  if (tasks.length === 0) {
+    taskList.innerHTML = `<div><p>Keine Todos</p></div>`;
+  } else {
+    taskListElement.innerHTML = createTaskListHTML(tasks)
+  }
+}
+
+removeButton.addEventListener("click", () => {
+  localStorage.clear();
+});
+
+taskForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const createDate = new Date().getTime();
+  const dueDate = new Date(
+    document.querySelector("#due-date-id").value
+  ).getTime();
+
+  const newTask = new Task(
+    document.querySelector("#title-id").value,
+    document.querySelector("#description-id").value,
+    document.querySelector("#priority-id").value,
+    createDate,
+    dueDate,
+    false
+  );
+
+  taskStorage.push(newTask);
+  localStorage.setItem("task-list", JSON.stringify(taskStorage));
+  taskForm.reset();
+  renderList(taskStorage)
+
+  document.querySelector("#list-wrapper").style.display = "block";
+  document.querySelector("#form-wrapper").style.display = "none";
+});
+
+function taskClickEventHandler(event) {
+  const {taskId} = event.target.dataset
+  switch (event.target.dataset.taskFunc) {
+    case "edit" :
+      break;
+    case "complete" :
+      completeTask(taskStorage, taskId)
+      break;
+    case "remove" :
+      break;
+
+    default:
+      break;
+  }
+
+}
+
+taskListElement.addEventListener("click", taskClickEventHandler)
+
+addTaskButton.addEventListener("click", () => {
+  document.querySelector("#list-wrapper").style.display = "none";
+  document.querySelector("#form-wrapper").style.display = "block";
+});
+
+closeAddTaskButton.addEventListener("click", () => {
+  document.querySelector("#list-wrapper").style.display = "block";
+  document.querySelector("#form-wrapper").style.display = "none";
+});
+
+sortByPrioButton.addEventListener("click", () => {
+  renderList([...taskStorage].sort(sortByPriority));
+});
+
+sortByDueDateButton.addEventListener("click", () => {
+  renderList([...taskStorage].sort(sortByDueDate));
+});
+
+renderList(taskStorage);
