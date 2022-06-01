@@ -1,0 +1,71 @@
+.dark-theme {
+    --background: #222;
+    --color: #f5f5f5;
+    --color-hover: #eee;
+    --primary: #6610f2;
+    --secondary: #4605a2;
+    --accent: #627d98;
+    --high: #c62828;
+    --middle: #ff8f00;
+    --low: #673ab7;
+    --inactiv: #8d8d8d;
+    --primary-button: #6610f2;
+    --secondary-button: #83c5be;
+    --state-completed: #007061ff;
+}
+
+:root {
+    --background: #f7f7f7;
+    --color: #121212;
+    --color-hover: #03045e;
+    --primary: #c8d3d5;
+    --secondary: #a4b8c4;
+    --accent: #6e8387;
+    --high: #c62828;
+    --middle: #ff8f00;
+    --low: #673ab7;
+    --inactiv: #8d8d8d;
+    --primary-button: #c8d3d5;
+    --secondary-button: #006d77;
+    --state-completed: #007061ff;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Roboto Flex", sans-serif;
+}
+
+body {
+    max-width: 50rem;
+    margin: auto;
+    background-color: var(--background);
+    color: var(--color);
+    display: grid;
+    grid-template:
+        "header header" auto
+        "main main" auto
+        "footer foorter" auto;
+    transition: background-color 0.3s;
+}
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+footer {
+    grid-area: footer;
+}
+
+#list-wrapper {
+    max-width: 900px;
+    margin: auto;
+}
+
+#form-wrapper {
+    max-width: 600px;
+    margin: auto;
+}

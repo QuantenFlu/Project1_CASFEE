@@ -3,33 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <title>Note App</title>
-
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/documentStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,500&display=swap" rel="stylesheet">
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
       integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU="
       crossorigin="anonymous"
       defer
     ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/index.css" />
     <script src="https://kit.fontawesome.com/1ca1a76b88.js" crossorigin="anonymous"></script>
-    <script src="scripts/index.js" type="module"></script>
+    <script src="scripts/controllers/TaskController.js" type="module"></script>
   </head>
   <body>
     <header>
       <h1 class="title-header">Next Time ToDo</h1>
     </header>
 
-    <main>
+    <main class="main-content" data-view="list">
       <section id="list-wrapper">
         <section class="top-section">
           <input
             type="button"
-            class="button-style button-text"
+            class="button-style button-text button-view"
             value="Neues Todo"
-            id="addTodo-button"
+            data-view-action="form"
+            id="add-task-button"
           />
           <input
             type="button"
@@ -57,6 +58,7 @@
                 type="button"
                 id="button-due-date"
                 data-sort-by="due-date"
+                data-sort-order="desc"
                 value="Erledigt bis"
               />
             </li>
@@ -66,6 +68,7 @@
                 type="button"
                 id="button-created-date"
                 data-sort-by="created-date"
+                data-sort-order="desc"
                 value="Erstellt am"
               />
             </li>
@@ -75,7 +78,17 @@
                 type="button"
                 id="button-priority"
                 data-sort-by="priority"
+                data-sort-order="desc"
                 value="Wichtig"
+              />
+            </li>
+            <li class="nav-filter-item">
+              <input
+                class="button-style button-text button-anim button-sort"
+                type="button"
+                id="button-filter"
+                data-sort-by="hideCompleted"
+                value="Erledigt"
               />
             </li>
             <li class="nav-filter-item">
@@ -90,11 +103,11 @@
           </ul>
         </section>
 
-        <ul id="task-list" class="task-list"></ul>
+        <div id="task-list" class="task-list"></div>
       </section>
 
       <section id="form-wrapper">
-        <form class="task-apply-form" id="task-form" action="" method="post">
+        <form class="task-apply-form" id="task-form" action="" method="post" data-save-type="add">
           <div class="task-div title-div">
             <label class="label-style todo-title-label" for="title-id"
               >Titel</label
@@ -107,6 +120,7 @@
               required
             />
           </div>
+
           <div class="task-div due-date-div">
             <label class="label-style todo-duedate-label" for="due-date-id"
               >Zu erledigen bis</label
@@ -118,6 +132,7 @@
               required
             />
           </div>
+
           <div class="task-div description-div">
             <label
               class="label-style todo-description-label"
@@ -151,13 +166,13 @@
           </div>
 
           <div class="task-button-section">
-            <button
+            <input
               type="button"
-              class="button-style button-text"
+              class="button-style button-text button-view"
               id="close-add-task-button"
-            >
-              Schliessen
-            </button>
+              data-view-action="list"
+              value="Schliessen"
+            />
             <button
               type="submit"
               id="submit-add-task-button"

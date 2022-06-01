@@ -1,5 +1,5 @@
 const themeButton = document.querySelector("#theme-button");
-const addTaskButton = document.querySelector("#addTodo-button");
+const addTaskButton = document.querySelector("#add-task-button");
 const closeAddTaskButton = document.querySelector("#close-add-task-button");
 const taskList = document.querySelector("#task-list");
 const taskForm = document.querySelector("#task-form");
@@ -101,14 +101,14 @@ function createTaskListHTML(tasks) {
   return tasks.map(
     (task) => `
  <div class="task-item-container" id="task-item-container">
-    <div class="task-state"></div>
+    <div class="task-state task" data-task-state="${getTaskState(task.isCompleted)}"></div>
     <div class="task-title">
       <p class="todo-item-title">${task.title}</p>
     </div>
     <div class="task-complete">
       <div>
-        <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${getTaskState(task.completed)} data-task-id="${task.id}" data-task-func="complete">
-        <label for="task-state-checkbox">${getStateText(task.completed)}</label>
+        <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${getTaskState(task.isCompleted)} data-task-id="${task.id}" data-task-func="complete">
+        <label for="task-state-checkbox">${getStateText(task.isCompleted)}</label>
       </div>
       <button class="task-container-button task-button" data-task-id="${task.id}" data-task-func="edit">
         <i class="fa-solid fa-pen fa-lg task-button" data-task-id="${task.id}" data-task-func="edit"></i>
