@@ -1,3 +1,8 @@
+.sort-icon {
+    color: var(--accent);
+    align-self: center;
+}
+
 .main-content[data-view="form"] #form-wrapper,
 .main-content[data-view="list"] #list-wrapper {
     display: block;
@@ -35,7 +40,7 @@
 
 .nav-filter-list {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     padding: 0;
     margin: 0;
     list-style-type: none;
@@ -51,6 +56,8 @@
 }
 
 .button-style {
+    display: flex;
+    gap: 10px;
     background-color: var(--primary);
     border: var(--primary) 0 solid;
     border-radius: 0.25rem;
@@ -71,6 +78,10 @@
 
 .button-anim:active {
     transform: translateY(3px);
+}
+
+.button-sort-active {
+    background-color: var(--activ-button);
 }
 
 .task-item-container {

@@ -62,38 +62,38 @@ export default class TaskController {
   showTaskListHTML(tasks) {
     return tasks
       .map((task) => `
-         <div class="task-item-container" id="task-item-container" data-is-completed="${task.isCompleted.toString()}">
-      <div class="task-state" data-task-state="${taskService.getTaskState(task.isCompleted)}"></div>
-      <div class="task-title">
-        <p class="todo-item-title">${task.title}</p>
-      </div>
-      <div class="task-complete">
-        <div>
-          <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${taskService.getTaskState(
-            task.isCompleted
-          )} data-task-id="${task.id}" data-task-action="complete">
-          <label for="task-state-checkbox">${taskService.getTaskStateText(
-            task.isCompleted
-          )}</label>
-        </div>
-        <button class="task-button" data-task-id="${task.id}" data-task-action="edit">
-          <i class="fa-solid fa-pen fa-lg" data-task-id="${task.id}" data-task-action="edit"></i>
-        </button>
-      </div>
-      <div class="task-due-date">
-        ${taskService.showDaysUntil(task)}
-      </div>
-      <div class="task-description">
-        <p class="todo-item-description">${task.description}</p>
-      </div>
-      <div class="task-priority">
-        ${taskService.showPrioritySymbols({
-          priority: task.priority,
-          activeHtml: '<i class="fa-solid fa-bolt fa-lg active-priority"></i>',
-          inactiveHtml: '<i class="fa-solid fa-bolt fa-lg inactive-priority"></i>',
-        })}
-      </div>
-    </div> `
+        <div class="task-item-container" id="task-item-container" data-is-completed="${task.isCompleted.toString()}">
+          <div class="task-state" data-task-state="${taskService.getTaskState(task.isCompleted)}"></div>
+          <div class="task-title">
+            <p class="todo-item-title">${task.title}</p>
+          </div>
+          <div class="task-complete">
+            <div>
+              <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${taskService.getTaskState(
+                task.isCompleted
+              )} data-task-id="${task.id}" data-task-action="complete">
+              <label for="task-state-checkbox">${taskService.getTaskStateText(
+                task.isCompleted
+              )}</label>
+            </div>
+            <button class="task-button" data-task-id="${task.id}" data-task-action="edit">
+              <i class="fa-solid fa-pen fa-lg" data-task-id="${task.id}" data-task-action="edit"></i>
+            </button>
+          </div>
+          <div class="task-due-date">
+            ${taskService.showDaysUntil(task)}
+          </div>
+          <div class="task-description">
+            <p class="todo-item-description">${task.description}</p>
+          </div>
+          <div class="task-priority">
+            ${taskService.showPrioritySymbols({
+              priority: task.priority,
+              activeHtml: '<i class="fa-solid fa-bolt fa-lg active-priority"></i>',
+              inactiveHtml: '<i class="fa-solid fa-bolt fa-lg inactive-priority"></i>',
+            })}
+          </div>
+        </div> `
       ).join("");
   }
 
@@ -141,11 +141,11 @@ export default class TaskController {
         // taskService.sortList((task1, task2) => task2.priority - task1.priority)
         break;
       case "reset":
-        taskService.sortList((task1, task2) => this.sortOrder(task1.id, task2.id));
-        document.querySelector("#task-list").classList.toggle("hide-completed");
+        taskService.sortList((task1, task2) => this.sortOrder.ascNumb(task1.id, task2.id));
         break;
       case "hideCompleted":
         document.querySelector("#task-list").classList.toggle("hide-completed");
+        document.querySelector("#button-filter").classList.toggle("button-sort-active")
         break;
       default:
         break

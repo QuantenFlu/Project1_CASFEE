@@ -11,6 +11,7 @@
     --inactiv: #8d8d8d;
     --primary-button: #6610f2;
     --secondary-button: #83c5be;
+    --activ-button: #6dad7eff;
     --state-completed: #007061ff;
 }
 
@@ -27,6 +28,7 @@
     --inactiv: #8d8d8d;
     --primary-button: #c8d3d5;
     --secondary-button: #006d77;
+    --activ-button: #6dad7eff;
     --state-completed: #007061ff;
 }
 
