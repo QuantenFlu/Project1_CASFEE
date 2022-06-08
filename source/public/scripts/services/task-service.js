@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import TaskStorage from "./data/task-storage.js";
 import Task from "./task.js";
 

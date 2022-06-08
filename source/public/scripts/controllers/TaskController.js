@@ -58,7 +58,6 @@ export default class TaskController {
   }
 
   // Rendering Cards
-  // eslint-disable-next-line class-methods-use-this
   showTaskListHTML(tasks) {
     return tasks
       .map((task) => `
@@ -152,7 +151,6 @@ export default class TaskController {
     }
   }
 
-  // Set initial event handlers
   initEventHandlers() {
     this.themeButton.addEventListener("click", () => {
       document.body.classList.toggle("dark-theme")

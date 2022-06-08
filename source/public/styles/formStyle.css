@@ -1,8 +1,0 @@
-#form-wrapper {
-    max-width: 600px;
-    margin: auto;
-}
-
-#task-state-completed {
-    visibility: hidden;
-}
