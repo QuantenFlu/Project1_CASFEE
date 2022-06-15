@@ -1,5 +1,6 @@
 import TaskStorage from "./data/task-storage.js";
 import Task from "./task.js";
+import { httpService } from "./http-service.js";
 
 export class TaskService {
   constructor(storage) {
@@ -7,63 +8,28 @@ export class TaskService {
     this.tasks = [ ];
   }
 
-  loadData() {
-    this.tasks = this.storage.getAll().map(task => new Task({
-      id: task.id,
-      title: task.title,
-      description: task.description,
-      priority: task.priority,
-      creationDate: task.creationDate,
-      dueDate: task.dueDate,
-      isCompleted: task.isCompleted,
-    }))
-
+  async createTask(task) {
+    return httpService.ajax("POST", "/tasks/", {task});
   }
 
-  save() {
-    this.storage.update(this.tasks)
+  async getTasks() {
+    return httpService.ajax("GET", "/tasks/", undefined);
   }
 
-  clear() {
-    this.storage.clear()
+  async getTaskById(id) {
+    return httpService.ajax("GET", `/tasks/${id}`, undefined)
   }
 
-  createTaskId() {
-    return this.tasks.length + 1;
+  async getTasksSorted(orderBy, sort) {
+    return httpService.ajax("GET", `/tasks/?orderBy=${orderBy}&sortBy=${sort}`, undefined)
   }
 
-  addTask(task) {
-    const newTask = new Task({
-      id: this.createTaskId(),
-      title: task.title,
-      description: task.description,
-      priority: task.priority,
-      dueDate: task.dueDate
-    });
-
-    this.tasks.push(newTask);
-    this.save();
+  async updateTask(task) {
+    return httpService.ajax("PATCH", `/tasks/${task._id}`, {task})
   }
 
-  updateTask(task) {
-    this.getTaskById(task.id)
-    if (this.findTask) {
-      this.findTask.setTask(task);
-      this.save()
-    }
-  }
-
-  getTaskById(taskId) {
-    this.findTask = this.tasks.find(item => item.id.toString() === taskId.toString())
-    return this.findTask;
-  }
-
-  completeTask({taskId, isChecked}) {
-    const task = this.tasks.find(item => item.id.toString() === taskId.toString());
-    if (task) {
-      task.setComplete(isChecked)
-      this.save()
-    }
+  async deleteTask(id) {
+    return httpService.ajax("DELETE", `/tasks/${id}`, undefined);
   }
 
   getTaskState(isChecked) {

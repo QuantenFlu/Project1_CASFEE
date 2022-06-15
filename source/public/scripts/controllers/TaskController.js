@@ -8,49 +8,36 @@ export default class TaskController {
     this.taskList = document.querySelector("#task-list")
     this.taskForm = document.querySelector("#task-form")
     this.mainContent = document.querySelector(".main-content[data-view]")
-    this.clearButton = document.querySelector("#remove-all-tasks-button");
-    this.sortOrder = {
-      ascAlph: (string1, string2) => {
-        if(string1.toLowerCase() < string2.toLowerCase()) {return -1;}
-        if(string1.toLowerCase() > string2.toLowerCase()) {return 1;}
-        return 0;
-      },
-      descAlph: (string1, string2) => {
-        if(string1.toLowerCase() < string2.toLowerCase()) {return 1;}
-        if(string1.toLowerCase() > string2.toLowerCase()) {return -1;}
-        return 0;
-      },
-      ascNumb: (numb1, numb2) => numb1 - numb2,
-      descNumb: (numb1, numb2) => numb2 - numb1,
-    }
   }
 
   changeView(view) {
     this.mainContent.dataset.view = view;
   }
 
-  setFormData(task) {
-    this.updateTask = task;
-    document.querySelector("#title-id").value = task.title;
-    document.querySelector("#description-id").value = task.description;
-    document.querySelector("#due-date-id").value = task.dueDate;
-    document.querySelector("#priority-id").value = task.priority;
+  setFormData() {
+    document.querySelector("#title-id").value = this.task.title;
+    document.querySelector("#description-id").value = this.task.description;
+    document.querySelector("#due-date-id").value = this.task.dueDate;
+    document.querySelector("#priority-id").value = this.task.priority;
   }
 
   // Task Button handler
-  taskClickEventHandler(event) {
+  async taskClickEventHandler(event) {
     const {taskId, taskAction} = event.target.dataset
     switch (taskAction) {
       case "edit":
+        this.task = await taskService.getTaskById(taskId)
+        this.setFormData();
+        this.taskForm.setAttribute("data-save-type", "update");
         this.changeView("form");
-        this.setFormData(taskService.getTaskById(taskId))
-        this.taskForm.setAttribute("data-save-type", "update")
         break;
       case "complete":
-        taskService.completeTask({
-          taskId,
-          isChecked: event.target.checked
-        });
+        this.task = await taskService.getTaskById(taskId);
+        await taskService.updateTask({...this.task, isCompleted: event.target.checked, state: event.target.checked ? "COMPLETED" :  "OPEN"})
+        await this.getTaskList()
+        break;
+      case "delete":
+        await taskService.deleteTask(taskId);
         break;
       default:
         break;
@@ -61,7 +48,7 @@ export default class TaskController {
   showTaskListHTML(tasks) {
     return tasks
       .map((task) => `
-        <div class="task-item-container" id="task-item-container" data-is-completed="${task.isCompleted.toString()}">
+        <li class="task-item-container" id="task-item-container" data-is-completed="${task.isCompleted.toString()}">
           <div class="task-state" data-task-state="${taskService.getTaskState(task.isCompleted)}"></div>
           <div class="task-title">
             <p class="todo-item-title">${task.title}</p>
@@ -70,13 +57,16 @@ export default class TaskController {
             <div>
               <input type="checkbox" name="state-checkbox" id="task-state-checkbox" ${taskService.getTaskState(
                 task.isCompleted
-              )} data-task-id="${task.id}" data-task-action="complete">
+              )} data-task-id="${task._id}" data-task-action="complete">
               <label for="task-state-checkbox">${taskService.getTaskStateText(
                 task.isCompleted
               )}</label>
             </div>
-            <button class="task-button" data-task-id="${task.id}" data-task-action="edit">
-              <i class="fa-solid fa-pen fa-lg" data-task-id="${task.id}" data-task-action="edit"></i>
+            <button class="task-button" data-task-id="${task._id}" data-task-action="delete">
+              <i class="fa-solid fa-trash-can fa-lg" data-task-id="${task._id}" data-task-action="delete"></i>
+            </button>
+            <button class="task-button" data-task-id="${task._id}" data-task-action="edit">
+              <i class="fa-solid fa-pen fa-lg" data-task-id="${task._id}" data-task-action="edit"></i>
             </button>
           </div>
           <div class="task-due-date">
@@ -92,55 +82,55 @@ export default class TaskController {
               inactiveHtml: '<i class="fa-solid fa-bolt fa-lg inactive-priority"></i>',
             })}
           </div>
-        </div> `
+        </li> `
       ).join("");
   }
 
   // Filter event
-  taskFilterEventHandler(event) {
+  async taskFilterEventHandler(event) {
     const {sortBy, sortOrder} = event.target.dataset;
+    let taskList;
     switch (sortBy) {
       case "name":
         if(sortOrder === "asc") {
-          taskService.sortList((task1, task2) => this.sortOrder.ascAlph(task1.title, task2.title));
+          taskList = await taskService.getTasksSorted("title", 1)
           document.querySelector("#button-by-name").setAttribute("data-sort-order", "desc" );
         } else {
-          taskService.sortList((task1, task2) => this.sortOrder.descAlph(task1.title, task2.title));
+          taskList = await taskService.getTasksSorted("title", -1)
           document.querySelector("#button-by-name").setAttribute("data-sort-order", "asc");
         }
         break;
       case "due-date":
         if(sortOrder === "asc") {
-          taskService.sortList((task1, task2) => this.sortOrder.ascNumb(new Date(task1.dueDate).getTime(), new Date(task2.dueDate).getTime()))
+          taskList = await taskService.getTasksSorted("dueDate", 1)
           document.querySelector("#button-due-date").setAttribute("data-sort-order", "desc" );
         } else {
-          taskService.sortList((task1, task2) => this.sortOrder.descNumb(new Date(task1.dueDate).getTime(), new Date(task2.dueDate).getTime()))
+          taskList = await taskService.getTasksSorted("dueDate", -1)
           document.querySelector("#button-due-date").setAttribute("data-sort-order", "asc");
         }
-        // taskService.sortList((task1, task2) => new Date(task1.dueDate).getTime() - new Date(task2.dueDate).getTime())
         break;
       case "created-date":
         if(sortOrder === "asc") {
-          taskService.sortList((task1, task2) => this.sortOrder.ascNumb(new Date(task1.creationDate).getTime(), new Date(task2.creationDate).getTime()));
+          taskList = await taskService.getTasksSorted("creationDate", 1)
           document.querySelector("#button-created-date").setAttribute("data-sort-order", "desc" );
         } else {
-          taskService.sortList((task1, task2) => this.sortOrder.descNumb(new Date(task1.creationDate).getTime(), new Date(task2.creationDate).getTime()));
+          taskList = await taskService.getTasksSorted("creationDate", -1)
           document.querySelector("#button-created-date").setAttribute("data-sort-order", "asc");
         }
-        // taskService.sortList((task1, task2) => new Date(task2.creationDate).getTime() - new Date(task1.creationDate).getTime())
         break;
       case "priority":
         if(sortOrder === "asc") {
-          taskService.sortList((task1, task2) => this.sortOrder.ascNumb(task1.priority, task2.priority));
+          taskList = await taskService.getTasksSorted("priority", 1)
           document.querySelector("#button-priority").setAttribute("data-sort-order", "desc" );
         } else {
-          taskService.sortList((task1, task2) => this.sortOrder.descNumb(task1.priority, task2.priority));
+          taskList = await taskService.getTasksSorted("priority", -1)
           document.querySelector("#button-priority").setAttribute("data-sort-order", "asc");
         }
-        // taskService.sortList((task1, task2) => task2.priority - task1.priority)
         break;
       case "reset":
-        taskService.sortList((task1, task2) => this.sortOrder.ascNumb(task1.id, task2.id));
+        taskList = await taskService.getTasks()
+        document.querySelector("#task-list").classList.remove("hide-completed")
+        document.querySelector("#button-filter").classList.remove("button-sort-active");
         break;
       case "hideCompleted":
         document.querySelector("#task-list").classList.toggle("hide-completed");
@@ -148,6 +138,9 @@ export default class TaskController {
         break;
       default:
         break
+    }
+    if (taskList) {
+      this.renderTaskList(taskList)
     }
   }
 
@@ -164,36 +157,31 @@ export default class TaskController {
       })
     )
 
-    this.clearButton.addEventListener("click",() => {
-      taskService.clear();
-    })
-
     this.sortButtons.forEach(element => element.addEventListener("click", (event) =>{
       this.taskFilterEventHandler(event)
-      this.renderTaskList()
     }))
 
     this.taskList.addEventListener("click", (event) => {
       this.taskClickEventHandler(event);
-      this.renderTaskList();
     })
 
     // Submit Task
-    this.taskForm.addEventListener("submit", (event) => {
+    this.taskForm.addEventListener("submit", async (event) => {
       event.preventDefault()
       switch (event.target.dataset.saveType) {
         case "add":
-          taskService.addTask({
+          await taskService.createTask({
             title: document.querySelector("#title-id").value,
             description: document.querySelector("#description-id").value,
             priority: document.querySelector("#priority-id").value,
             dueDate: document.querySelector("#due-date-id").value
           })
+          await this.getTaskList();
           break;
 
         case "update":
-          taskService.updateTask({
-            id: this.updateTask.id,
+          await taskService.updateTask({
+            ...this.task,
             title: document.querySelector("#title-id").value,
             description: document.querySelector("#description-id").value,
             priority: document.querySelector("#priority-id").value,
@@ -204,23 +192,27 @@ export default class TaskController {
           break;
       }
 
+      await this.getTaskList();
       this.changeView("list");
-      this.renderTaskList();
     })
   }
 
-  renderTaskList() {
-    if (taskService.tasks.length === 0) {
+  renderTaskList(taskList) {
+    if (taskList.length === 0) {
       this.taskList.innerHTML = `<div><p>Keine Todos</p></div>`
     } else {
-      this.taskList.innerHTML = this.showTaskListHTML(taskService.tasks)
+      this.taskList.innerHTML = this.showTaskListHTML(taskList)
     }
+  }
+
+  async getTaskList() {
+    const taskList = await taskService.getTasks()
+    this.renderTaskList(taskList)
   }
 
   initialize() {
     this.initEventHandlers();
-    taskService.loadData();
-    this.renderTaskList();
+    this.getTaskList();
   }
 }
 

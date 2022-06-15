@@ -19,6 +19,9 @@
     "object-curly-newline": "off",
     "object-curly-spacing": "off",
     "linebreak-style": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "max-classes-per-file": "off",
+    "no-underscore-dangle": "off",
+    "import/prefer-default-export": "off"
   }
 }
