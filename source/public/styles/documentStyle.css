@@ -9,6 +9,7 @@
     --middle: #ff8f00;
     --low: #673ab7;
     --inactiv: #8d8d8d;
+    --accent-button: #93f6e8;
     --primary-button: #6610f2;
     --secondary-button: #83c5be;
     --activ-button: #6dad7eff;
@@ -26,6 +27,7 @@
     --middle: #ff8f00;
     --low: #673ab7;
     --inactiv: #8d8d8d;
+    --accent-button: #93f6e8;
     --primary-button: #c8d3d5;
     --secondary-button: #006d77;
     --activ-button: #6dad7eff;
@@ -64,10 +66,12 @@ footer {
 
 #list-wrapper {
     max-width: 900px;
+    width: 98%;
     margin: auto;
 }
 
 #form-wrapper {
     max-width: 600px;
+    width: 95%;
     margin: auto;
 }
