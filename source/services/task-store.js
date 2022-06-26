@@ -48,7 +48,7 @@ export class TaskStore {
   }
 
   async getAll(sortBy) {
-    return (await this.db.find({$or: [{state: "OPEN"}, {state: "COMPLETED"}]}).sort(sortBy).exec());
+    return (this.db.find({$or: [{state: "OPEN"}, {state: "COMPLETED"}]}).sort(sortBy).exec());
   }
 }
 

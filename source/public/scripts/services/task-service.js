@@ -1,11 +1,6 @@
-import TaskStorage from "./data/task-storage.js";
 import { httpService } from "./http-service.js";
 
 export class TaskService {
-  constructor(storage) {
-    this.storage = storage || new TaskStorage();
-    this.tasks = [ ];
-  }
 
   async createTask(task) {
     return httpService.ajax("POST", "/tasks/", {task});

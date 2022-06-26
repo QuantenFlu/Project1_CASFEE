@@ -113,6 +113,14 @@
     font-size: 1rem;
 }
 
+.no-tasks-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
 @media (max-width: 600px) {
     .nav-filter-list {
         display: flex;

@@ -16,11 +16,10 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.sendFile("/html/index.html", {root: __dirname + '/source/public/'});
+  res.sendFile("/html/index.html", {root: `${__dirname  }/source/public/`});
 })
 
 app.use((req, res, next) => {
-  console.log(req.body || "No Body, looks like GET");
   next();
 })
 

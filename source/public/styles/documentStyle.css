@@ -1,17 +1,15 @@
 .dark-theme {
     --background: #222;
     --color: #f5f5f5;
-    --color-hover: #eee;
     --primary: #6610f2;
     --secondary: #4605a2;
     --accent: #627d98;
     --high: #c62828;
     --middle: #ff8f00;
-    --low: #673ab7;
     --inactiv: #8d8d8d;
     --accent-button: #93f6e8;
     --primary-button: #6610f2;
-    --secondary-button: #83c5be;
+    --secondary-button: #c8d3d5;
     --activ-button: #6dad7eff;
     --state-completed: #007061ff;
 }
@@ -19,15 +17,13 @@
 :root {
     --background: #f7f7f7;
     --color: #121212;
-    --color-hover: #03045e;
     --primary: #c8d3d5;
     --secondary: #a4b8c4;
     --accent: #6e8387;
     --high: #c62828;
     --middle: #ff8f00;
-    --low: #673ab7;
     --inactiv: #8d8d8d;
-    --accent-button: #93f6e8;
+    --accent-button: #6b34c7;
     --primary-button: #c8d3d5;
     --secondary-button: #006d77;
     --activ-button: #6dad7eff;
@@ -40,7 +36,7 @@
 }
 
 body {
-    max-width: 50rem;
+    max-width: 850px;
     margin: auto;
     background-color: var(--background);
     color: var(--color);

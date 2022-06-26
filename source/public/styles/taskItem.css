@@ -32,7 +32,7 @@
 }
 
 .task-state[data-task-state="overdue"] {
-    background-color: var(--middle);
+    background-color: var(--high);
 }
 
 .task-delayed {
