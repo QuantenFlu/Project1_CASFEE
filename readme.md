@@ -33,4 +33,3 @@ Folgende Befehle sind möglich
 | npm run eslint  | Testet ob die JS Files in Ordnung sind.       |
 | npm run all  | Führt die Tests für CSS/HTML/JS aus.          |
 | npm run start  | Started den Web-Server: http://localhost:3001 |
-d
